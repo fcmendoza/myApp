@@ -13,11 +13,20 @@
       </ion-header>
 
       <ExploreContainer name="Tab 1 page" />
+      <ion-button @click="generateRandomNumber">Click here to Generate Random Number</ion-button>
+      <p v-if="randomNumber !== null">Random Number: {{ randomNumber }}</p>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { ref } from 'vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 import ExploreContainer from '@/components/ExploreContainer.vue';
+
+const randomNumber = ref<number | null>(null);
+
+function generateRandomNumber() {
+  randomNumber.value = Math.floor(Math.random() * 100) + 1;
+}
 </script>
