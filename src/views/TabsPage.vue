@@ -4,8 +4,8 @@
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="meditation" href="/tabs/meditation">
-          <ion-icon name="person-circle-outline"></ion-icon>
-          <ion-label>Meditation 🧘</ion-label>
+          <ion-icon aria-hidden="true" :icon="home" />
+          <ion-label>Meditation</ion-label>
         </ion-tab-button>
         <ion-tab-button tab="tab1" href="/tabs/tab1">
           <ion-icon aria-hidden="true" :icon="triangle" />
@@ -28,5 +28,5 @@
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { ellipse, square, triangle, home } from 'ionicons/icons';
 </script>
