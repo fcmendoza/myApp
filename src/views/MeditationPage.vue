@@ -11,69 +11,69 @@
                     <ion-title size="large">Meditation</ion-title>
                 </ion-toolbar>
             </ion-header>
-            <p>Hello to today's meditation</p>
+            <!-- <p>Hello to today's meditation</p> -->
             <ion-item>
-                <ion-label>Timer (minutes)</ion-label>
-                <ion-range v-model="selectedTimer" min="0" max="30" step="1" snaps="true" ticks="true">
+                <ion-label>Timer</ion-label>
+                <ion-range v-model="selectedTimer" min="0" max="20" step="1" snaps="true" ticks="true">
                     <ion-label slot="start">0</ion-label>
-                    <ion-label slot="end">30</ion-label>
+                    <ion-label slot="end">20</ion-label>
                 </ion-range>
+                <ion-note slot="helper">{{ selectedTimer }} minutes</ion-note>
             </ion-item>
-            <div>
-                <ion-item>
-                    <ion-label>Heart Chakra Bell</ion-label>
-                    <ion-radio v-model="selectedBellSound" value="bell-hit-heart-chakra-4.mp3"></ion-radio>
-                    <ion-button @click="previewBellSound('bell-hit-heart-chakra-4.mp3')">Preview</ion-button>
-                    <ion-badge v-if="selectedBellSound === 'bell-hit-heart-chakra-4.mp3'" color="primary">Selected</ion-badge>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Bell A</ion-label>
-                    <ion-radio v-model="selectedBellSound" value="bell-a.mp3"></ion-radio>
-                    <ion-button @click="previewBellSound('bell-a.mp3')">Preview</ion-button>
-                    <ion-badge v-if="selectedBellSound === 'bell-a.mp3'" color="primary">Selected</ion-badge>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Copper Bell Ding</ion-label>
-                    <ion-radio v-model="selectedBellSound" value="copper-bell-ding-22.mp3"></ion-radio>
-                    <ion-button @click="previewBellSound('copper-bell-ding-22.mp3')">Preview</ion-button>
-                    <ion-badge v-if="selectedBellSound === 'copper-bell-ding-22.mp3'" color="primary">Selected</ion-badge>
-                </ion-item>
-            </div>
+            <ion-item>
+                <ion-label>Selected Timer: {{ selectedTimer }} minutes</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label>Bell Interval</ion-label>
+                <ion-segment v-model="selectedBellInterval">
+                    <ion-segment-button value="1" checked>
+                        <ion-label>1 min</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="2">
+                        <ion-label>2 min</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="3">
+                        <ion-label>3 min</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="4">
+                        <ion-label>4 min</ion-label>
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-item>
+            <ion-item>
+                <ion-label>Bell Sound</ion-label>
+                <ion-segment v-model="selectedBellSound" @ionChange="playBellSound">
+                    <ion-segment-button value="bell-hit-heart-chakra-4.mp3" @click="previewBellSound('bell-hit-heart-chakra-4.mp3')">
+                        <ion-label>Heart Chakra Bell</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="copper-bell-ding-22.mp3" @click="previewBellSound('copper-bell-ding-22.mp3')">
+                        <ion-label>Copper Bell Ding</ion-label>
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-item>
             <ion-item-divider></ion-item-divider>
-            <div>
-                <ion-item>
-                    <ion-label>Deep Meditation</ion-label>
-                    <ion-radio v-model="selectedSound" value="deep"></ion-radio>
-                    <ion-button @click="previewSound('deep')">Preview</ion-button>
-                    <ion-badge v-if="selectedSound === 'deep'" color="primary">Selected</ion-badge>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Forest - Calming forest ambiance</ion-label>
-                    <ion-radio v-model="selectedSound" value="forest"></ion-radio>
-                    <ion-button @click="previewSound('forest')">Preview</ion-button>
-                    <ion-badge v-if="selectedSound === 'forest'" color="primary">Selected</ion-badge>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Waves - Relaxing ocean waves</ion-label>
-                    <ion-radio v-model="selectedSound" value="waves"></ion-radio>
-                    <ion-button @click="previewSound('waves')">Preview</ion-button>
-                    <ion-badge v-if="selectedSound === 'waves'" color="primary">Selected</ion-badge>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Nature - Peaceful nature sounds</ion-label>
-                    <ion-radio v-model="selectedSound" value="nature"></ion-radio>
-                    <ion-button @click="previewSound('nature')">Preview</ion-button>
-                    <ion-badge v-if="selectedSound === 'nature'" color="primary">Selected</ion-badge>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Relaxing - Gentle relaxing music</ion-label>
-                    <ion-radio v-model="selectedSound" value="relaxing"></ion-radio>
-                    <ion-button @click="previewSound('relaxing')">Preview</ion-button>
-                    <ion-badge v-if="selectedSound === 'relaxing'" color="primary">Selected</ion-badge>
-                </ion-item>
+            <ion-item>
+                <ion-label>Music: </ion-label>
+                <ion-segment v-model="selectedSound" @ionChange="changeBackgroundMusic">
+                    <ion-segment-button value="deep">
+                        <ion-label>Relaxing</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="waves">
+                        <ion-label>Deep</ion-label></ion-segment-button>
+                    <ion-segment-button value="nature">
+                        <ion-label>Peaceful</ion-label></ion-segment-button>
+                </ion-segment>
+            </ion-item>
+            <div style="text-align: center;">
+                <ion-button @click="startMeditation" :disabled="isMeditationActive">
+                    <ion-icon name="play"></ion-icon>
+                    Start
+                </ion-button>
+                <ion-button @click="stopMeditation" color="danger" :disabled="!isMeditationActive">
+                    <ion-icon name="stop"></ion-icon>
+                    Stop
+                </ion-button>
             </div>
-            <ion-button @click="startMeditation">Start Meditation</ion-button>
-            <ion-button @click="stopMeditation" color="danger" :disabled="!isMeditationActive">Stop Meditation</ion-button>
             <div v-if="remainingTime !== null">
                 <p class="countdown">{{ formattedTime }}</p>
             </div>
@@ -90,12 +90,13 @@
 </style>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonCheckbox, IonButton, IonRange, IonRadio, IonItemDivider, IonBadge } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonCheckbox, IonButton, IonRange, IonRadio, IonItemDivider, IonBadge, IonIcon, IonSegment, IonSegmentButton, IonNote } from '@ionic/vue';
 import { ref, computed, onMounted } from 'vue';
 
 const selectedTimer = ref<number>(4);
 const selectedSound = ref<string>('deep');
 const selectedBellSound = ref<string>('bell-hit-heart-chakra-4.mp3');
+const selectedBellInterval = ref<number>(1);
 const remainingTime = ref<number | null>(null);
 let intervalId: number | null = null;
 let bellIntervalId: number | null = null;
@@ -113,7 +114,7 @@ const formattedTime = computed(() => {
 
 const startMeditation = () => {
     if (selectedTimer.value === null || selectedSound.value === null) return;
-    remainingTime.value = selectedTimer.value * 60;
+    remainingTime.value = (selectedTimer.value * 60) + 10; // Add 10 seconds to the selected timer
     playSound(selectedSound.value);
     intervalId = setInterval(() => {
         if (remainingTime.value !== null) {
@@ -125,7 +126,7 @@ const startMeditation = () => {
             }
         }
     }, 1000) as unknown as number;
-    bellIntervalId = setInterval(playBellSound, 60000) as unknown as number;
+    bellIntervalId = setInterval(playBellSound, selectedBellInterval.value * 60000) as unknown as number;
     isMeditationActive.value = true;
 };
 
@@ -172,8 +173,10 @@ const playSound = (sound: string) => {
 };
 
 const playBellSound = () => {
-    const audio = new Audio(`/assets/sounds/${selectedBellSound.value}`);
-    audio.play();
+    if (selectedBellSound.value) {
+        const audio = new Audio(`/assets/sounds/${selectedBellSound.value}`);
+        audio.play();
+    }
 };
 
 const previewBellSound = (sound: string) => {
@@ -188,44 +191,22 @@ const previewBellSound = (sound: string) => {
             previewBellAudio.pause();
             previewBellAudio.currentTime = 0;
         }
-    }, 5000);
+    }, 10000);
 };
 
-const previewSound = (sound: string) => {
-    if (previewAudio !== null) {
-        previewAudio.pause();
-        previewAudio.currentTime = 0;
+const changeBackgroundMusic = () => {
+    if (currentAudio !== null) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
     }
-    let audioSrc = '';
-    switch (sound) {
-        case 'deep':
-            audioSrc = '/assets/sounds/meditation-deep.mp3';
-            break;
-        case 'forest':
-            audioSrc = '/assets/sounds/meditation-music-256141.mp3';
-            break;
-        case 'waves':
-            audioSrc = '/assets/sounds/meditation-music-289149.mp3';
-            break;
-        case 'nature':
-            audioSrc = '/assets/sounds/meditation-music-without-nature-sound-256142.mp3';
-            break;
-        case 'relaxing':
-            audioSrc = '/assets/sounds/meditation-relaxing-music-293922.mp3';
-            break;
+    if (selectedSound.value) {
+        playSound(selectedSound.value);
     }
-    previewAudio = new Audio(audioSrc);
-    previewAudio.play();
-    setTimeout(() => {
-        if (previewAudio !== null) {
-            previewAudio.pause();
-            previewAudio.currentTime = 0;
-        }
-    }, 10000);
 };
 
 onMounted(() => {
     selectedSound.value = 'deep';
     selectedBellSound.value = 'bell-hit-heart-chakra-4.mp3';
+    selectedBellInterval.value = 1; // Set Bell Interval to 1 minute by default
 });
 </script>
