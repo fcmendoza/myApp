@@ -64,6 +64,7 @@
                         <ion-label>Peaceful</ion-label></ion-segment-button>
                 </ion-segment>
             </ion-item>
+            <ion-item-divider></ion-item-divider>
             <div style="text-align: center;">
                 <ion-button @click="startMeditation" :disabled="isMeditationActive">
                     <ion-icon name="play"></ion-icon>
@@ -114,7 +115,7 @@ const formattedTime = computed(() => {
 
 const startMeditation = () => {
     if (selectedTimer.value === null || selectedSound.value === null) return;
-    remainingTime.value = (selectedTimer.value * 60) + 10; // Add 10 seconds to the selected timer
+    remainingTime.value = (selectedTimer.value * 60);
     playSound(selectedSound.value);
     intervalId = setInterval(() => {
         if (remainingTime.value !== null) {
