@@ -25,20 +25,14 @@
             </ion-item>
             <ion-item>
                 <ion-label>Bell Interval</ion-label>
-                <ion-segment v-model="selectedBellInterval">
-                    <ion-segment-button value="1" checked>
-                        <ion-label>1 min</ion-label>
-                    </ion-segment-button>
-                    <ion-segment-button value="2">
-                        <ion-label>2 min</ion-label>
-                    </ion-segment-button>
-                    <ion-segment-button value="3">
-                        <ion-label>3 min</ion-label>
-                    </ion-segment-button>
-                    <ion-segment-button value="4">
-                        <ion-label>4 min</ion-label>
-                    </ion-segment-button>
-                </ion-segment>
+                <ion-range v-model="selectedBellInterval" min="0.25" max="4" step="0.25" snaps="true" ticks="true">
+                    <ion-label slot="start">15 sec</ion-label>
+                    <ion-label slot="end">4 min</ion-label>
+                </ion-range>
+                <ion-note slot="helper">{{ formattedBellInterval }}</ion-note>
+            </ion-item>
+            <ion-item>
+                <ion-label>Selected Bell Interval: {{ formattedBellInterval }}</ion-label>
             </ion-item>
             <ion-item>
                 <ion-label>Bell Sound</ion-label>
@@ -55,10 +49,10 @@
             <ion-item>
                 <ion-label>Music: </ion-label>
                 <ion-segment v-model="selectedSound" @ionChange="changeBackgroundMusic">
-                    <ion-segment-button value="deep">
-                        <ion-label>Relaxing</ion-label>
+                    <ion-segment-button value="therapy">
+                        <ion-label>Therapy</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="waves">
+                    <ion-segment-button value="deep">
                         <ion-label>Deep</ion-label></ion-segment-button>
                     <ion-segment-button value="nature">
                         <ion-label>Peaceful</ion-label></ion-segment-button>
@@ -113,6 +107,12 @@ const formattedTime = computed(() => {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 });
 
+const formattedBellInterval = computed(() => {
+    const minutes = Math.floor(selectedBellInterval.value);
+    const seconds = (selectedBellInterval.value % 1) * 60;
+    return `${minutes > 0 ? minutes + ' min ' : ''}${seconds > 0 ? seconds + ' sec' : ''}`.trim();
+});
+
 const startMeditation = () => {
     if (selectedTimer.value === null || selectedSound.value === null) return;
     remainingTime.value = (selectedTimer.value * 60);
@@ -152,13 +152,13 @@ const stopMeditation = () => {
 const playSound = (sound: string) => {
     let audioSrc = '';
     switch (sound) {
-        case 'deep':
+        case 'deepx':
             audioSrc = '/assets/sounds/meditation-deep.mp3';
             break;
         case 'forest':
             audioSrc = '/assets/sounds/meditation-music-256141.mp3';
             break;
-        case 'waves':
+        case 'deep':
             audioSrc = '/assets/sounds/meditation-music-289149.mp3';
             break;
         case 'nature':
@@ -166,6 +166,9 @@ const playSound = (sound: string) => {
             break;
         case 'relaxing':
             audioSrc = '/assets/sounds/meditation-relaxing-music-293922.mp3';
+            break;
+        case 'therapy':
+            audioSrc = '/assets/sounds/session_sound_20_minutes.mp3';
             break;
     }
     currentAudio = new Audio(audioSrc);
