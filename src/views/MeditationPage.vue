@@ -86,7 +86,15 @@
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption, IonCheckbox, IonButton, IonRange, IonRadio, IonItemDivider, IonBadge, IonIcon, IonSegment, IonSegmentButton, IonNote } from '@ionic/vue';
+import { play, stop } from 'ionicons/icons';
 import { ref, computed, onMounted } from 'vue';
+import { addIcons } from 'ionicons';
+
+// Register icons
+addIcons({
+  'play': play,
+  'stop': stop
+});
 
 const selectedTimer = ref<number>(4);
 const selectedSound = ref<string>('deep');
