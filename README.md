@@ -1,5 +1,11 @@
 # Human Generated README
 
+NOTE: it seems I needed to run the following command for my changes to make it to AWS Amplify when deploying:
+
+```bash
+amplify pull --appId d3ztl4ai1m3z3 --envName dev
+```
+
 This is an Ionic app -- which at the moment I'm not sure what Ionic is, but that's what it is.
 
 To build the app run the following command:
