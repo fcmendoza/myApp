@@ -153,22 +153,22 @@ const playSound = (sound: string) => {
     let audioSrc = '';
     switch (sound) {
         case 'deepx':
-            audioSrc = '/assets/sounds/meditation-deep.mp3';
+            audioSrc = './assets/sounds/meditation-deep.mp3';
             break;
         case 'forest':
-            audioSrc = '/assets/sounds/meditation-music-256141.mp3';
+            audioSrc = './assets/sounds/meditation-music-256141.mp3';
             break;
         case 'deep':
-            audioSrc = '/assets/sounds/meditation-music-289149.mp3';
+            audioSrc = './assets/sounds/meditation-music-289149.mp3';
             break;
         case 'nature':
-            audioSrc = '/assets/sounds/meditation-music-without-nature-sound-256142.mp3';
+            audioSrc = './assets/sounds/meditation-music-without-nature-sound-256142.mp3';
             break;
         case 'relaxing':
-            audioSrc = '/assets/sounds/meditation-relaxing-music-293922.mp3';
+            audioSrc = './assets/sounds/meditation-relaxing-music-293922.mp3';
             break;
         case 'therapy':
-            audioSrc = '/assets/sounds/session_sound_20_minutes.mp3';
+            audioSrc = './assets/sounds/session_sound_20_minutes.mp3';
             break;
     }
     currentAudio = new Audio(audioSrc);
@@ -178,7 +178,7 @@ const playSound = (sound: string) => {
 
 const playBellSound = () => {
     if (selectedBellSound.value) {
-        const audio = new Audio(`/assets/sounds/${selectedBellSound.value}`);
+        const audio = new Audio(`./assets/sounds/${selectedBellSound.value}`);
         audio.play();
     }
 };
@@ -188,7 +188,7 @@ const previewBellSound = (sound: string) => {
         previewBellAudio.pause();
         previewBellAudio.currentTime = 0;
     }
-    previewBellAudio = new Audio(`/assets/sounds/${sound}`);
+    previewBellAudio = new Audio(`./assets/sounds/${sound}`);
     previewBellAudio.play();
     setTimeout(() => {
         if (previewBellAudio !== null) {
