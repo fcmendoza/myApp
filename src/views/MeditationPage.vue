@@ -219,6 +219,6 @@ const changeBackgroundMusic = () => {
 onMounted(() => {
     selectedSound.value = 'deep';
     selectedBellSound.value = 'bell-hit-heart-chakra-4.mp3';
-    selectedBellInterval.value = 1; // Set Bell Interval to 1 minute by default
+    selectedBellInterval.value = 0.25; // Set Bell Interval to 15 seconds (0.25 min) by default
 });
 </script>
