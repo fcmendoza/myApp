@@ -13,7 +13,7 @@
             </ion-header>
             <!-- <p>Hello to today's meditation</p> -->
             <ion-item>
-                <ion-label>Timer</ion-label>
+                <ion-label>Duration d4849</ion-label>
                 <ion-range v-model="selectedTimer" min="0" max="20" step="1" snaps="true" ticks="true">
                     <ion-label slot="start">0</ion-label>
                     <ion-label slot="end">20</ion-label>
@@ -21,7 +21,7 @@
                 <ion-note slot="helper">{{ selectedTimer }} minutes</ion-note>
             </ion-item>
             <ion-item>
-                <ion-label>Selected Timer: {{ selectedTimer }} minutes</ion-label>
+                <ion-label>Meditation duration: {{ selectedTimer }} minute(s)</ion-label>
             </ion-item>
             <ion-item>
                 <ion-label>Bell Interval</ion-label>

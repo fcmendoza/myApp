@@ -1,10 +1,55 @@
-# Human Generated README
+# README Updates
 
-NOTE: it seems I needed to run the following command for my changes to make it to AWS Amplify when deploying:
+## August 2025 updates
+
+We can make changes and test them locally using `ionic build && ionic serve`. Once we're good locally we can deploy the changes to the production environment by doing the following:
+
+```sh
+# First deploy to AWS Amplify
+amplify publish --yes
+# When the publish operation is complete, you'll get a URL where the app is up and running, but
+# before loading that URL in the browser delete the cache by running:
+aws cloudfront create-invalidation --distribution-id E3HJNN1MOJFX3P --paths "/*"
+```
+
+All in one:
+
+```sh
+amplify publish --yes \
+&& aws cloudfront create-invalidation --distribution-id E3HJNN1MOJFX3P --paths "/*"
+```
+
+## July 2025 updates
+
+```bash
+amplify status  # will tell you  which environment we're using. It will also display the public URL where the app can be accessed.
+amplify console # to open the Amplify Console and view your project status
+amplify publish # will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+# README About
+
+## To deploy the app
+
+It seems I needed to run the following command for my changes to make it to AWS Amplify when deploying:
 
 ```bash
 amplify pull --appId d3ztl4ai1m3z3 --envName dev
 ```
+
+And for production:
+
+```bash
+#
+# I got this command from the Amplify Console in AWS:
+# https://us-east-1.console.aws.amazon.com/amplify/home?region=us-east-1#/d3ztl4ai1m3z3/YmFja2VuZA/prod
+#
+amplify pull --appId d3ztl4ai1m3z3 --envName prod
+```
+
+It's worth noting that this `pull` command does not deploy the application. For publishing the application follow the instructions under the "Deployment" section on this README.
+
+## About the app
 
 This is an Ionic app -- which at the moment I'm not sure what Ionic is, but that's what it is.
 
@@ -22,14 +67,15 @@ ionic serve
 
 ## Deployment
 
-We can deploy this app to AWS Amplify. To deploy the latest changes run:
+Changes don't need to be 'git commited' for them to be deployed.
+To deploy the latest changes to AWS Amplify run the following:
 
 ```bash
 npm run build && \
 amplify publish
 ```
 
-The public URL where this app runs is:
+After the deployment is done you'll get a URL where the app is up and running. For example:
 
 ```
 https://dwvszul5vv5qj.cloudfront.net
