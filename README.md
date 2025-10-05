@@ -1,4 +1,55 @@
-# README Updates
+## October 2025 updates
+
+- Trying GTP-5 reasoning capabilities to help fix the iOS issue.
+- Removed tracking of `.vscode/extensions.json` from git.
+- Updated CloudFront Distribution `E3HJNN1MOJFX3P` to cache for only 1 minute (60 seconds) instead of 24 hours (86400 seconds).
+
+**How to develop:**
+
+1. Make changes locally and test them using `ionic build && ionic serve`.
+2. Once changes are good locally, deploy to AWS Amplify using `amplify publish --yes`.
+3. After deployment, invalidate the CloudFront cache using: `aws cloudfront create-invalidation --distribution-id E3HJNN1MOJFX3P --paths "/*"`.
+
+The URL I'm currently testing on my iOS devices is: https://d1xnsflhxa29nz.cloudfront.net which is linked to the `prod` environment in AWS Amplify.
+
+For reference, for the `prod` environment:
+* Environment: prod
+* Hosting endpoint: https://d1xnsflhxa29nz.cloudfront.net
+* CloudFront Distribution ID: E3HJNN1MOJFX3P
+
+To update the CloudFront cache, I followed this process:
+
+1. Get current config:
+
+```sh
+aws cloudfront get-distribution-config --id E3HJNN1MOJFX3P > full-config.json
+```
+
+2. Extract the inner DistributionConfig:
+
+```sh
+jq '.DistributionConfig' full-config.json > dist-config.json
+```
+
+3. Edit TTLs in dist-config.json:
+
+```json
+"DefaultCacheBehavior": {
+    "MinTTL": 60,
+    "DefaultTTL": 60,
+    "MaxTTL": 360,
+    ...
+}
+```
+
+4. Update the distribution:
+
+```sh
+aws cloudfront update-distribution \
+    --id E3HJNN1MOJFX3P \
+    --distribution-config file://dist-config.json \
+    --if-match E25KDLMQTL3Y0O
+```
 
 ## August 2025 updates
 

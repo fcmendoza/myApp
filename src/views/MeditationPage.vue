@@ -13,7 +13,8 @@
             </ion-header>
             <!-- <p>Hello to today's meditation</p> -->
             <ion-item>
-                <ion-label>Duration d4849</ion-label>
+                <ion-label>Duration f99d7e5</ion-label>
+                <ion-label>d1xnsflhxa29nz is prod</ion-label>
                 <ion-range v-model="selectedTimer" min="0" max="20" step="1" snaps="true" ticks="true">
                     <ion-label slot="start">0</ion-label>
                     <ion-label slot="end">20</ion-label>
