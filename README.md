@@ -1,6 +1,6 @@
 ## October 2025 updates
 
-- Trying GTP-5 reasoning capabilities to help fix the iOS issue.
+- Finally a version that works on iOS Safari! It's not the app itself, but at least the _Audtio Test_ page works. The url is: `https://d1xnsflhxa29nz.cloudfront.net/audio-test.html`. Load it on Safari on iOS and follow the instructions on the page.
 - Removed tracking of `.vscode/extensions.json` from git.
 - Updated CloudFront Distribution `E3HJNN1MOJFX3P` to cache for only 1 minute (60 seconds) instead of 24 hours (86400 seconds).
 - Made audio-test.html dak mode friendly. To access it go to: `https://d1xnsflhxa29nz.cloudfront.net/audio-test.html`. Locally at: `http://localhost:8100/public/audio-test.html`
