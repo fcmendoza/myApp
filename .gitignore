@@ -51,5 +51,4 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 src/views/creds.txt
-amplify/team-provider-info.json
 #amplify-do-not-edit-end
