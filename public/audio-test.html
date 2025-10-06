@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Test for iOS Safari</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            text-align: center;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            margin: 0;
+        }
+        button { 
+            padding: 15px 20px; 
+            margin: 10px; 
+            font-size: 16px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #0d6efd;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover { 
+            background: #0b5ed7;
+            border-color: #0b5ed7;
+            transform: translateY(-1px);
+        }
+        h1 {
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+        }
+        .success { 
+            background-color: #0f2419; 
+            color: #4ade80; 
+            border-color: #166534;
+        }
+        .error { 
+            background-color: #2d1b1b; 
+            color: #f87171; 
+            border-color: #991b1b;
+        }
+        .warning { 
+            background-color: #2d2509; 
+            color: #fbbf24; 
+            border-color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio Test for iOS Safari</h1>
+    <p>This page tests the audio fixes for Safari iOS compatibility</p>
+    
+    <div id="status" class="status warning">
+        Click any button to test audio functionality
+    </div>
+    
+    <button onclick="initializeAudio()">Initialize Audio Context</button>
+    <button onclick="testBackgroundMusic()">Test Background Music</button>
+    <button onclick="testBellSound()">Test Bell Sound</button>
+    <button onclick="stopAll()">Stop All Audio</button>
+    
+    <script>
+        let audioContext = null;
+        let isAudioInitialized = false;
+        let currentAudio = null;
+        
+        function updateStatus(message, type = 'warning') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        async function initializeAudio() {
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                isAudioInitialized = true;
+                updateStatus('Audio context initialized successfully!', 'success');
+                console.log('Audio context state:', audioContext.state);
+            } catch (error) {
+                updateStatus('Failed to initialize audio: ' + error.message, 'error');
+                console.error('Audio initialization error:', error);
+            }
+        }
+        
+        async function testBackgroundMusic() {
+            try {
+                await initializeAudio();
+                
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
+                
+                currentAudio = new Audio('/assets/sounds/meditation-music-289149.mp3');
+                currentAudio.loop = true;
+                currentAudio.preload = 'metadata';
+                currentAudio.volume = 0.5;
+                
+                await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        reject(new Error('Audio loading timeout'));
+                    }, 10000);
+                    
+                    currentAudio.addEventListener('canplaythrough', () => {
+                        clearTimeout(timeout);
+                        resolve(true);
+                    }, { once: true });
+                    
+                    currentAudio.addEventListener('error', (e) => {
+                        clearTimeout(timeout);
+                        reject(e);
+                    }, { once: true });
+                    
+                    currentAudio.load();
+                });
+                
+                await currentAudio.play();
+                updateStatus('Background music playing successfully!', 'success');
+            } catch (error) {
+                updateStatus('Failed to play background music: ' + error.message, 'error');
+                console.error('Background music error:', error);
+            }
+        }
+        
+        async function testBellSound() {
+            try {
+                await initializeAudio();
+                
+                const audio = new Audio('/assets/sounds/bell-hit-heart-chakra-4.mp3');
+                audio.preload = 'metadata';
+                audio.volume = 0.8;
+                
+                await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        reject(new Error('Bell audio loading timeout'));
+                    }, 5000);
+                    
+                    audio.addEventListener('canplaythrough', () => {
+                        clearTimeout(timeout);
+                        resolve(true);
+                    }, { once: true });
+                    
+                    audio.addEventListener('error', (e) => {
+                        clearTimeout(timeout);
+                        reject(e);
+                    }, { once: true });
+                    
+                    audio.load();
+                });
+                
+                await audio.play();
+                updateStatus('Bell sound played successfully!', 'success');
+            } catch (error) {
+                updateStatus('Failed to play bell sound: ' + error.message, 'error');
+                console.error('Bell sound error:', error);
+            }
+        }
+        
+        function stopAll() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            updateStatus('All audio stopped', 'warning');
+        }
+        
+        // Auto-initialize on first touch/click
+        document.addEventListener('touchstart', initializeAudio, { once: true });
+        document.addEventListener('click', initializeAudio, { once: true });
+    </script>
+</body>
+</html>
